@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:bullseye
 RUN apt-get update && apt install -y nginx
 RUN apt install curl -y
 RUN apt install vim -y
