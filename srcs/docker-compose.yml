@@ -1,6 +1,6 @@
 services:
   wordpress:
-    build: ./srcs/wordpress
+    build: ./requirement/wordpress
     container_name: wordpress
     depends_on:
     - mariadb
@@ -13,7 +13,7 @@ services:
     restart: always
 
   mariadb:
-    build: ./srcs/mariadb
+    build: ./requirement/mariadb
     container_name: mariadb
     volumes:
     - mariadb:/var/lib/mysql
@@ -22,7 +22,7 @@ services:
     restart: always
 
   nginx:
-    build: ./srcs/nginx
+    build: ./requirement/nginx
     container_name: nginx
     depends_on:
     - wordpress
