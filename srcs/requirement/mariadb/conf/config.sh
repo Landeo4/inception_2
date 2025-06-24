@@ -1,4 +1,4 @@
-service mariadb start; # change mariadb en mysql
+service mysql start; # change mariadb en mysql
 mysql -e "CREATE DATABASE IF NOT EXISTS \`${SQL_DATABASE}\`;"
 mysql -e "CREATE USER IF NOT EXISTS \`${SQL_USER}\`@'localhost' IDENTIFIED BY '${SQL_PASSWORD}';"
 mysql -e "GRANT ALL PRIVILEGES ON \`${SQL_DATABASE}\`.* TO \`${SQL_USER}\`@'%' IDENTIFIED BY '${SQL_PASSWORD}';"
@@ -6,6 +6,6 @@ mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${SQL_ROOT_PASSWORD}';"
 mysql -e "FLUSH PRIVILEGES;"
 mysqladmin -u root -p$SQL_ROOT_PASSWORD shutdown
 
-service mariadb stop
+service mysql stop
 
 exec mysqld_safe --bind-address=0.0.0.0
