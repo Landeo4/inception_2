@@ -1,4 +1,14 @@
 services:
+  mariadb:
+    build: ./requirement/mariadb
+    container_name: mariadb
+    volumes:
+    - mariadb:/var/lib/mysql
+    networks:
+    - inception
+    restart: always
+
+
   wordpress:
     build: ./requirement/wordpress
     container_name: wordpress
@@ -12,14 +22,6 @@ services:
     - inception
     restart: always
 
-  mariadb:
-    build: ./requirement/mariadb
-    container_name: mariadb
-    volumes:
-    - mariadb:/var/lib/mysql
-    networks:
-    - inception
-    restart: always
 
   nginx:
     build: ./requirement/nginx

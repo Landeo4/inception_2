@@ -13,5 +13,5 @@ RUN chown -R mysql:mysql /var/lib/mysql
 RUN service mariadb start
 RUN /etc/init.d/mariadb start
 # RUN mariadb -u root
-CMD conf/scrips.sh
+CMD conf/config.sh
 ENTRYPOINT ["./config.sh"]
