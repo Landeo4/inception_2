@@ -1,13 +1,26 @@
 #!/bin/bash
 
-service mysql start;
-mysql -e "CREATE DATABASE IF NOT EXISTS \`${SQL_DATABASE}\`;"
-mysql -e "CREATE USER IF NOT EXISTS \`${SQL_USER}\`@'localhost' IDENTIFIED BY '${SQL_PASSWORD}';"
-mysql -e "GRANT ALL PRIVILEGES ON \`${SQL_DATABASE}\`.* TO \`${SQL_USER}\`@'%' IDENTIFIED BY '${SQL_PASSWORD}';"
-mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${SQL_ROOT_PASSWORD}';"
-mysql -e "FLUSH PRIVILEGES;"
-mysqladmin -u root -p$SQL_ROOT_PASSWORD shutdown
+mysqld_safe &
 
-service mysql stop
+until mysqladmin ping --silent; do
+    echo 'En attente de mariadb'
+    sleep 2
+done
 
-exec mysqld_safe --bind-address=0.0.0.0
+echo "Environment variables are set:"
+echo "SQL_DATABASE: $SQL_DB"
+echo "SQL_USER: $SQL_USR"
+echo "SQL_PASSWORD: $SQL_PASS"
+echo "SQL_ROOT_PASSWORD: $SQL_ROOTPASS"
+
+mysql -u root <<-EOSQL
+  ALTER USER 'root'@'localhost' IDENTIFIED BY '${SQL_ROOTPASS}';
+  CREATE DATABASE IF NOT EXISTS \`${SQL_DB}\`;
+  CREATE USER IF NOT EXISTS \`${SQL_USR}\`@'%' IDENTIFIED BY '${SQL_PASS}';
+  GRANT ALL PRIVILEGES ON \`${SQL_DB}\`.* TO \`${SQL_USR}\`@'%';
+  FLUSH PRIVILEGES;
+EOSQL
+
+mysqladmin -u root -p"${SQL_ROOTPASS}" shutdown
+
+exec mysqld_safe
