@@ -17,7 +17,7 @@ if [ ! -f "/var/www/wordpress/wp-config.php" ]; then
 fi
 
 if ! wp-cli.phar core is-installed --allow-root --path='/var/www/wordpress'; then
-	wp-cli.phar core install --url="$WP_URL" --title="$WP_TITLE" --admin_user="$WP_USER" --admin_password="$WP_PASS" --admin_email="$WP_MAIL" --path='/var/www/wordpress' --allow-root
+	wp-cli.phar core install --url="$WP_URL" --title="$WP_TITLE" --admin_user="$WP_USR" --admin_password="$WP_PASS" --admin_email="$WP_MAIL" --path='/var/www/wordpress' --allow-root
 fi
 
 if ! wp-cli.phar user get $WP_USR2 --allow-root --path='/var/www/wordpress'; then
