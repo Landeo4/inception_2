@@ -1,26 +1,28 @@
 .PHONY: all build up down restart logs clean
 
+COMPOSE = srcs/docker-compose.yml
+
 all: up
 
 build:
-	docker compose -f docker-compose.yml build
+	docker compose -f $(COMPOSE) build
 
 up:
-	docker compose -f docker-compose.yml up -d
+	docker compose -f $(COMPOSE) up -d
 
 down:
-	docker compose -f docker-compose.yml down
+	docker compose -f $(COMPOSE) down
 
 restart: down up
 
 logs:
-	docker compose -f docker-compose.yml logs -f
+	docker compose -f $(COMPOSE) logs -f
 
 clean: down
-	docker compose -f docker-compose.yml down -v --remove-orphans
+	docker compose -f $(COMPOSE) down -v --remove-orphans
 
 ps:
-	docker compose -f docker-compose.yml ps
+	docker compose -f $(COMPOSE) ps
 
 exec-wp:
 	docker exec -it wordpress /bin/bash
